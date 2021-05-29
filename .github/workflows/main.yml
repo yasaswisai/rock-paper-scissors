@@ -31,12 +31,13 @@ jobs:
           java-version: 1.8
 
       - name: Step - 3 github actions build
-        run: mvn -B package --file pom.xml
+        run: | 
+          mvn -B package --file pom.xml
+          mkdir staging && cp target/*.jar staging 
         
-      - name: Step - 4 list current directories
-        run: ls -a
-        
-      - name: Step 5 - target folder
-        run: |
-          cd target
-          ls -a
+      - name: Step - 4 data as artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: github-action-artifact-ssv
+          path: staging
+          
